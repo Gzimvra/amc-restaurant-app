@@ -6,22 +6,22 @@ const corsOptions = require("./src/middleware/corsOptions");
 const { connectDB, closeDB } = require("./src/config/database");
 
 const app = express();
-const PORT = process.env.PORT || 3500;
+const PORT = process.env.SERVER_PORT || 3500;
 
-// connectDB();
+connectDB();
 
 // ################################################## MIDDLEWARE ##################################################
 
-// Apply the rate limiter to all routes
 app.use(rateLimiter);
 app.use(cors(corsOptions));
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(express.json()); // Parse JSON bodies
 
 // #################################################### ROUTES #####################################################
 
-// app.use("/login", require("./src/route/loginRoute"));
-// app.use("/register", require("./src/route/registerRoute"));
-// app.use("/restaurants", require("./src/route/restaurantsRoute"));
-// app.use("/reservations", require("./src/route/reservationsRoute"));
+app.use("/auth", require("./src/routes/authRoute"));
+// app.use("/restaurants", require("./src/routes/restaurantsRoute"));
+// app.use("/reservations", require("./src/routes/reservationsRoute"));
 // app.use("/user/reservations", require("./src/route/usersRoute"));
 
 app.all("*", (req, res) => {
@@ -42,16 +42,20 @@ const shutdown = async (signal) => {
   if (server) {
     server.close(() => {
       console.log("Server closed.");
-      // closeDB().then(() => {
-      //   console.log("Database connection closed.");
-      // }).catch((err) => {
-      //   console.error("Error closing database:", err.message);
-      //   process.exit(1);
-      // });
+
+      closeDB()
+        .then(() => {
+          console.log("Database connection closed.");
+          setTimeout(() => process.exit(0), 100); // Small delay to allow logs to flush
+        })
+        .catch((err) => {
+          console.error("Error closing database:", err.message);
+          setTimeout(() => process.exit(1), 100);
+        });
     });
+  } else {
+    setTimeout(() => process.exit(0), 100);
   }
-  
-  process.exit(0);
 };
 
 // Listen for termination signals
