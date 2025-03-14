@@ -18,7 +18,7 @@ const getRestaurants = async (req, res) => {
         
         const restaurants = await conn.query(query, params);      
 
-        res.status(200).json({ error: false, restaurants: restaurants });
+        res.status(200).json({ error: false, message: "Restaurants fetched successfully!", restaurants: restaurants });
       
     } catch (err) {
         console.error("Error fetching restaurants:", err);

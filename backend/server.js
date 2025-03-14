@@ -20,18 +20,18 @@ app.use(compression());
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(express.json()); // Parse JSON bodies
 
-// #################################################### PUBLIC ROUTES #####################################################
+// #################################################### PUBLIC ROUTES ####################################################
 
 app.use("/auth", require("./src/routes/authRoute"));
 
-// ################################################## PROTECTED ROUTES ####################################################
+// ################################################### PROTECTED ROUTES ##################################################
 
 // Verify the jwt token
 app.use(verifyToken);
 
 app.use("/restaurants", require("./src/routes/restaurantsRoute"));
-// app.use("/reservations", require("./src/routes/reservationsRoute"));
-// app.use("/user/reservations", require("./src/route/usersRoute"));
+app.use("/reservations", require("./src/routes/reservationsRoute"));
+app.use("/user", require("./src/routes/usersRoute"));
 
 // ############################### 404 HANDLER ################################
 

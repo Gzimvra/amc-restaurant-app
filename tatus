@@ -1,0 +1,35 @@
+[33mcommit ef11d9434cfd07c15d48158cf060d7e37cd7d4b2[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: George Zimvragos <gzimvragos@gmail.com>
+Date:   Fri Mar 14 15:09:10 2025 +0200
+
+    Backend: added restaurant logic, jwt verification and protected routes
+
+[33mcommit f891dc3bc6d85089920dd9372fe665eba3701669[m
+Author: George Zimvragos <gzimvragos@gmail.com>
+Date:   Thu Mar 13 21:45:59 2025 +0200
+
+    Backend: modified the project filestructure, added login/register endpoints, added JWT authentication logic
+
+[33mcommit d31f0f0290df037640647f3e06f673a7da1483f7[m
+Author: George Zimvragos <gzimvragos@gmail.com>
+Date:   Mon Mar 10 15:02:37 2025 +0200
+
+    Remove .env file from cache
+
+[33mcommit 3b98e373fd0aefacef3b1576233d5dd8cf03de8c[m
+Author: George Zimvragos <gzimvragos@gmail.com>
+Date:   Mon Mar 10 14:56:46 2025 +0200
+
+    Backend: added graceful shutdown to server & handle the opening and closing of the database
+
+[33mcommit 93c9a574c1ebc904cbb169c5d926b8f6e1ef5bae[m
+Author: George Zimvragos <gzimvragos@gmail.com>
+Date:   Mon Mar 10 00:36:36 2025 +0200
+
+    Backend: added a few utilities, middleware and database connection logic + .env file template.
+
+[33mcommit 1520b2beac9d91a84ea487b9c23a5b8971956841[m
+Author: George Zimvragos <gzimvragos@gmail.com>
+Date:   Sat Mar 8 15:57:37 2025 +0200
+
+    initial commit
