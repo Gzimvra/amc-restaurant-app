@@ -1,5 +1,3 @@
-// src/controllers/authController.js
-
 const jwt = require("jsonwebtoken");
 const { validateEmail } = require('../utilities/checkEmailValid');
 const { hashPassword, comparePassword } = require('../utilities/passwordUtil');
@@ -39,7 +37,13 @@ const login = async (req, res) => {
         console.error("Error during login:", err);
         return res.status(500).json({ error: true, message: "Internal Server Error" });
     } finally {
-        if (conn) conn.release();  // Release the connection back to the pool
+        if (conn) {
+            try {
+                conn.release();
+            } catch (releaseErr) {
+                console.error("Error releasing connection:", releaseErr);
+            }
+        }
     }
 };
 
@@ -87,7 +91,13 @@ const register = async (req, res) => {
         console.error("Error during registration:", err);
         return res.status(500).json({ error: true, message: "Internal Server Error" });
     } finally {
-        if (conn) conn.release();  // Release the connection back to the pool
+        if (conn) {
+            try {
+                conn.release();
+            } catch (releaseErr) {
+                console.error("Error releasing connection:", releaseErr);
+            }
+        }
     }  
 };
 

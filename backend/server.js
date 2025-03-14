@@ -1,8 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const compression = require("compression");
 const rateLimiter = require("./src/middleware/rateLimiter");
 const corsOptions = require("./src/middleware/corsOptions");
+const verifyToken = require("./src/middleware/verifyToken");
 const { connectDB, closeDB } = require("./src/config/database");
 
 const app = express();
@@ -14,15 +16,24 @@ connectDB();
 
 app.use(rateLimiter);
 app.use(cors(corsOptions));
+app.use(compression());
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(express.json()); // Parse JSON bodies
 
-// #################################################### ROUTES #####################################################
+// #################################################### PUBLIC ROUTES #####################################################
 
 app.use("/auth", require("./src/routes/authRoute"));
-// app.use("/restaurants", require("./src/routes/restaurantsRoute"));
+
+// ################################################## PROTECTED ROUTES ####################################################
+
+// Verify the jwt token
+app.use(verifyToken);
+
+app.use("/restaurants", require("./src/routes/restaurantsRoute"));
 // app.use("/reservations", require("./src/routes/reservationsRoute"));
 // app.use("/user/reservations", require("./src/route/usersRoute"));
+
+// ############################### 404 HANDLER ################################
 
 app.all("*", (req, res) => {
   res.status(404);
@@ -33,7 +44,7 @@ app.all("*", (req, res) => {
   }
 });
 
-// #################################################### SERVER START/SHUTDOWN #####################################################
+// ############################################# SERVER START/SHUTDOWN ############################################
 
 // Graceful Shutdown Function
 const shutdown = async (signal) => {
