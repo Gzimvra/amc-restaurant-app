@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const compression = require("compression");
+const { logger } = require("./src/middleware/eventHandler");
+const errorHandler = require("./src/middleware/errorHandler");
 const rateLimiter = require("./src/middleware/rateLimiter");
 const corsOptions = require("./src/middleware/corsOptions");
 const verifyToken = require("./src/middleware/verifyToken");
@@ -14,6 +16,7 @@ connectDB();
 
 // ################################################## MIDDLEWARE ##################################################
 
+app.use(logger);
 app.use(rateLimiter);
 app.use(cors(corsOptions));
 app.use(compression());
@@ -68,6 +71,8 @@ const shutdown = async (signal) => {
     setTimeout(() => process.exit(0), 100);
   }
 };
+
+app.use(errorHandler);
 
 // Listen for termination signals
 process.on("SIGINT", () => shutdown("SIGINT"));
