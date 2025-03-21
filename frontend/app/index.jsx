@@ -1,17 +1,7 @@
-import { Text, View } from "react-native";
+import { Redirect } from "expo-router";
 
 const Index = () => {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Hello, World!</Text>
-    </View>
-  );
-}
+  return <Redirect href="/login" />;
+};
 
 export default Index;
