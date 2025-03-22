@@ -1,7 +1,7 @@
 // LoadingButton.js
 import React from 'react';
 import { Button } from 'react-native-paper';
-import styles from '../styles/Auth';
+import styles from '../styles/AuthStyles';
 
 const LoadingButton = ({ loading, onPress, label }) => {
     return (

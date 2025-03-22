@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, TextInput } from 'react-native-paper';
-import styles from '../styles/Auth';
+import styles from '../styles/AuthStyles';
 
 const InputField = ({
     label,

@@ -7,7 +7,7 @@ import WaveBackground from '../components/WaveBackground';
 import ToastHandler from '../components/ToastHandler';
 import LoadingButton from '../components/LoadingButton';
 import InputField from '../components/InputField';
-import styles from '../styles/Auth';
+import styles from '../styles/AuthStyles';
 
 const Login = () => {
     const [loading, setLoading] = useState(false);
