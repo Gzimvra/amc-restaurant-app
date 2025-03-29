@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation, useRouter } from 'expo-router';
+import { useNavigation, /*useRouter*/ } from 'expo-router';
 import MenuBar from '../components/MenuBar';
 import Navbar from '../components/NavBar';
 import SearchBar from '../components/SearchBar';
@@ -15,7 +15,7 @@ const Restaurants = () => {
     const [error, setError] = useState(false);
     const [restaurants, setRestaurants] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const router = useRouter();
+    // const router = useRouter();
     const navigation = useNavigation();
 
     useLayoutEffect(() => {
@@ -36,7 +36,7 @@ const Restaurants = () => {
 
     // Separate useEffect for safe navigation
     useEffect(() => {
-        if (isAuthenticated === false) router.replace('/login');
+        if (isAuthenticated === false) navigation.navigate('/login');
     }, [isAuthenticated]);
 
     // Fetch restaurants when authenticated or search query changes
@@ -77,9 +77,9 @@ const Restaurants = () => {
         );
     }
 
-    // Function to handle card press
+    // Function to handle card press and navigate to the reservations page
     const handleCardPress = (restaurant) => {
-        console.log(JSON.stringify(restaurant, null, 2));
+        navigation.navigate('reservations', { restaurant });
     };
 
     // Function to handle search query change

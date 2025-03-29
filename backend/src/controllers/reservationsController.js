@@ -1,4 +1,5 @@
 const { pool } = require('../config/database');
+const { formatDate, formatTime } = require('../utilities/dateTimeFormatter');
 
 const createReservation = async (req, res) => {
     let conn;
@@ -7,10 +8,10 @@ const createReservation = async (req, res) => {
 
         const reservation = {
           userId: req.user.userId,
-          restaurantId: req.body.restaurantId,
-          date: req.body.date,
-          time: req.body.time,
-          people_count: req.body.people_count
+          restaurant_id: req.body.restaurant_id,
+          date: formatDate(req.body.date),
+          time: formatTime(req.body.time),
+          numOfPeople: req.body.numOfPeople
         };
 
         const result = await conn.query(
@@ -18,10 +19,10 @@ const createReservation = async (req, res) => {
             VALUES (?, ?, ?, ?, ?)`, 
             [
                 reservation.userId,
-                reservation.restaurantId,
+                reservation.restaurant_id,
                 reservation.date,
                 reservation.time,
-                reservation.people_count
+                reservation.numOfPeople
             ]
         );
 

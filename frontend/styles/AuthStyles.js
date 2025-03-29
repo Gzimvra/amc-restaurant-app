@@ -50,6 +50,9 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginTop: 0,
   },
+  errorText: {
+    color: 'red'
+  }
 });
 
 export default styles;

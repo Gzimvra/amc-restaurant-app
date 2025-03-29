@@ -8,7 +8,7 @@ export const authenticateUser = async (email, password) => {
         const response = await axios.post(`${BASE_URL}/auth/login`, { email, password });      
         const token = response.data.token;
         await AsyncStorage.setItem("token", token);
-
+        
         return response.data;
 
     } catch (err) {
