@@ -34,7 +34,14 @@ const getReservationHistory = async (req, res) => {
         conn = await pool.getConnection();
 
         const reservationHistory = await conn.query(
-            `SELECT r.reservation_id, r.restaurant_id, r.date, r.time, r.people_count, res.name AS restaurant_name 
+            `SELECT r.reservation_id, 
+                    r.restaurant_id, 
+                    r.date, r.time, 
+                    r.people_count, 
+                    res.name AS restaurant_name, 
+                    res.location AS restaurant_location, 
+                    res.description AS restaurant_description, 
+                    res.rating AS restaurant_rating
              FROM reservations r
              JOIN restaurants res ON r.restaurant_id = res.restaurant_id
              WHERE r.user_id = ? 

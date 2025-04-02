@@ -1,5 +1,5 @@
 import { View, Text, ActivityIndicator, ScrollView } from 'react-native';
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -11,7 +11,7 @@ import ToastHandler from '../components/ToastHandler';
 import DatePicker from '../components/DatePicker';
 import TimePicker from '../components/TimePicker';
 import { isPastDate, isValidTime } from '../utils/helper';
-import createReservation from '../services/reservations';
+import { createReservation } from '../services/reservations';
 
 const Reservations = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -28,10 +28,6 @@ const Reservations = () => {
     const route = useRoute();
     const { restaurant } = route.params; // Get the passed restaurant object
 
-    useLayoutEffect(() => {
-        navigation.setOptions({ headerShown: false });
-    }, [navigation]);
-
     useEffect(() => {
         (async () => {
             try {
@@ -43,6 +39,15 @@ const Reservations = () => {
             }
         })();
     }, []);
+
+    // Pre-fill form fields if data exists
+    useEffect(() => {
+        console.log("Reservation page:", JSON.stringify(restaurant, null, 2));
+
+        restaurant?.numOfPeople ? setNumOfPeople(String(restaurant.numOfPeople)) : setNumOfPeople('');
+        restaurant?.date ? setDate(restaurant.date) : setDate('');
+        restaurant?.time ? setTime(restaurant.time) : setTime('');
+    }, [restaurant]);
 
     // Separate useEffect for safe navigation
     useEffect(() => {
@@ -112,6 +117,7 @@ const Reservations = () => {
             ToastHandler('success', 'Success!', 'Your reservation has been booked.');
 
         } catch (err) {
+            setError(true);
             ToastHandler('error', 'Making Reservation Failed', err?.response?.data?.message || "Oops! Something went wrong");
 
         } finally {
@@ -208,7 +214,7 @@ const Reservations = () => {
 
                                 {/* ADD BUTTON LATER */}
                                 <LoadingButton loading={loading} onPress={handleReservation} label="Submit" />
-                                
+
                             </View>
                         )}
                     </View>

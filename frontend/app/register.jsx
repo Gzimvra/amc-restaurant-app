@@ -1,13 +1,14 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StatusBar } from "react-native";
 import { useTheme } from "react-native-paper";
-import { useNavigation } from "expo-router";
+import { useRouter } from "expo-router";
 import { registerUser } from "../services/auth";
 import WaveBackground from "../components/WaveBackground";
 import ToastHandler from "../components/ToastHandler";
 import LoadingButton from "../components/LoadingButton";
 import InputField from "../components/InputField";
 import styles from "../styles/AuthStyles";
+import { useUser } from "../contexts/UserContext";
 
 const Register = () => {
     const [loading, setLoading] = useState(false);
@@ -20,11 +21,8 @@ const Register = () => {
     const [passwordError, setPasswordError] = useState("");
     
     const { colors } = useTheme();
-    const navigation = useNavigation();
-
-    useLayoutEffect(() => {
-        navigation.setOptions({ headerShown: false });
-    }, [navigation]);
+    const router = useRouter();
+    const { setUser } = useUser();
 
     const handleRegister = async () => {
         setUsernameError("");
@@ -58,8 +56,9 @@ const Register = () => {
             setPasswordError("");
 
             await registerUser(username, email, password);
-            navigation.push("restaurants");
-            
+            router.push("restaurants");
+            setUser(response.user); // Store user in context
+
             setUsername("");
             setEmail("");
             setPassword("");
@@ -117,7 +116,7 @@ const Register = () => {
 
                 <LoadingButton loading={loading} onPress={handleRegister} label="Register" />
 
-                <TouchableOpacity onPress={() => navigation.push("login")}>
+                <TouchableOpacity onPress={() => router.push("login")}>
                     <Text style={styles.signupText}>Already have an account? Login</Text>
                 </TouchableOpacity>
             </View>
