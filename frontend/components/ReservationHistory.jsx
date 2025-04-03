@@ -71,7 +71,7 @@ const ReservationHistory = ({ reservations: initialReservations }) => {
             date: reservationObj.date,
             time: reservationObj.time,
             numOfPeople: reservationObj.people_count,
-            action: 'edit',
+            action: 'Edit',
         };
 
         navigation.navigate('reservations', { restaurant });

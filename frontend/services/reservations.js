@@ -28,9 +28,31 @@ export const createReservation = async (reservation) => {
     }
 };
 
-export const editReservation = async (reservation_id) => {
-    console.log("Edit button clicked!");
-    console.log(reservation_id);
+export const editReservation = async (reservation) => {
+    try {
+        const token = await AsyncStorage.getItem('token');
+
+        if (!token) {
+            console.error("No token found");
+            return null;
+        }
+
+        const response = await axios.put(`${BASE_URL}/reservations/edit/${reservation.reservation_id}`,
+            reservation,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
+        return response.data;
+
+    } catch (err) {
+        return Promise.reject(err);
+    }
+
 }
 
 export const deleteReservation = async (reservation_id) => {

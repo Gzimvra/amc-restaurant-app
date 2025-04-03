@@ -75,7 +75,7 @@ const Restaurants = () => {
 
     // Function to handle card press and navigate to the reservations page
     const handleCardPress = (restaurant) => {
-        restaurant.action = 'create';
+        restaurant.action = 'Create';
         navigation.navigate('reservations', { restaurant });
     };
 

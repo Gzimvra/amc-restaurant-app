@@ -7,16 +7,16 @@ const createReservation = async (req, res) => {
         conn = await pool.getConnection();
 
         const reservation = {
-          userId: req.user.userId,
-          restaurant_id: req.body.restaurant_id,
-          date: formatDate(req.body.date),
-          time: formatTime(req.body.time),
-          numOfPeople: req.body.numOfPeople
+            userId: req.user.userId,
+            restaurant_id: req.body.restaurant_id,
+            date: formatDate(req.body.date),
+            time: formatTime(req.body.time),
+            numOfPeople: req.body.numOfPeople
         };
 
         const result = await conn.query(
             `INSERT INTO reservations (user_id, restaurant_id, date, time, people_count) 
-            VALUES (?, ?, ?, ?, ?)`, 
+            VALUES (?, ?, ?, ?, ?)`,
             [
                 reservation.userId,
                 reservation.restaurant_id,
@@ -50,22 +50,27 @@ const editReservation = async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        
-        const reservation = { 
-            reservationId: req.params.reservationId,
+
+        console.log(req)
+
+        const reservation = {
+            reservationId: Number(req.params.reservationId),
             userId: req.user.userId,
-            restaurantId: req.body.restaurantId,
-            date: req.body.date,
-            time: req.body.time,
+            restaurantId: Number(req.body.restaurantId),
+            date: formatDate(req.body.date),
+            time: formatTime(req.body.time),
             people_count: req.body.people_count
-        }
+        };
+
+        console.log(reservation); // Debug here to ensure reservationId and restaurantId are correct
+
 
         const result = await conn.query(
             `UPDATE reservations 
-            SET restaurant_id = ?, date = ?, time = ?, people_count = ?
-            WHERE reservation_id = ? AND user_id = ?`, // Ensure user can only edit their own reservation
+             SET restaurant_id = ?, date = ?, time = ?, people_count = ?
+             WHERE reservation_id = ? AND user_id = ?`,
             [
-                reservation.restaurantId,
+                reservation.restaurantId, 
                 reservation.date,
                 reservation.time,
                 reservation.people_count,
@@ -73,6 +78,7 @@ const editReservation = async (req, res) => {
                 reservation.userId
             ]
         );
+
 
         // Check if any rows were updated
         if (Number(result.affectedRows) === 0) return res.status(404).json({ error: true, message: "Reservation not found or unauthorized" });
@@ -93,7 +99,7 @@ const editReservation = async (req, res) => {
                 console.error("Error releasing connection:", releaseErr);
             }
         }
-    } 
+    }
 }
 
 const deleteReservation = async (req, res) => {
@@ -101,7 +107,7 @@ const deleteReservation = async (req, res) => {
     try {
         conn = await pool.getConnection();
 
-        const reservation = { 
+        const reservation = {
             reservationId: req.params.reservationId,
             userId: req.user.userId,
         }
@@ -134,7 +140,7 @@ const deleteReservation = async (req, res) => {
                 console.error("Error releasing connection:", releaseErr);
             }
         }
-    } 
+    }
 }
 
 module.exports = { createReservation, editReservation, deleteReservation };

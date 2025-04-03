@@ -11,7 +11,8 @@ import ToastHandler from '../components/ToastHandler';
 import DatePicker from '../components/DatePicker';
 import TimePicker from '../components/TimePicker';
 import { isPastDate, isValidTime } from '../utils/helper';
-import { createReservation } from '../services/reservations';
+import { createReservation, editReservation } from '../services/reservations';
+import moment from 'moment';
 
 const Reservations = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -42,11 +43,9 @@ const Reservations = () => {
 
     // Pre-fill form fields if data exists
     useEffect(() => {
-        console.log("Reservation page:", JSON.stringify(restaurant, null, 2));
-
-        restaurant?.numOfPeople ? setNumOfPeople(String(restaurant.numOfPeople)) : setNumOfPeople('');
-        restaurant?.date ? setDate(restaurant.date) : setDate('');
-        restaurant?.time ? setTime(restaurant.time) : setTime('');
+        setNumOfPeople(String(restaurant?.numOfPeople || ''));
+        setDate(restaurant?.date ? moment(restaurant.date).format("DD/MM/YYYY") : '');
+        setTime(restaurant?.time ? moment(restaurant.time, "HH:mm:ss").format("HH:mm") : '');
     }, [restaurant]);
 
     // Separate useEffect for safe navigation
@@ -99,22 +98,39 @@ const Reservations = () => {
         setLoading(true);
 
         try {
-            const reservation = {
-                restaurant_id: restaurant.restaurant_id,
-                numOfPeople: numOfPeople,
-                date: date,
-                time: time,
+            if (restaurant.action.toLowerCase() === "create") {
+                const reservation = {
+                    restaurant_id: restaurant.restaurant_id,
+                    numOfPeople: numOfPeople,
+                    date: date,
+                    time: time,
+                }
+
+                await createReservation(reservation);
+
+                ToastHandler('success', 'Success!', 'Your reservation has been booked.');
             }
 
-            await createReservation(reservation);
+            if (restaurant.action.toLowerCase() === "edit") {
+
+                const modifiedReservation = {
+                    reservation_id: restaurant.reservation_id,
+                    restaurantId: restaurant.restaurant_id,  // Ensure restaurant_id exists
+                    people_count: numOfPeople,
+                    date: date,
+                    time: time,
+                };
+
+                await editReservation(modifiedReservation);
+
+                ToastHandler('success', 'Success!', 'Your reservation has been edited.');
+            }
 
             setNumOfPeople('');
             setDate('');
             setTime('');
 
             navigation.navigate('restaurants')
-
-            ToastHandler('success', 'Success!', 'Your reservation has been booked.');
 
         } catch (err) {
             setError(true);
@@ -213,7 +229,7 @@ const Reservations = () => {
                                 />
 
                                 {/* ADD BUTTON LATER */}
-                                <LoadingButton loading={loading} onPress={handleReservation} label="Submit" />
+                                <LoadingButton loading={loading} onPress={handleReservation} label={`${restaurant.action || "Submit"} Reservation`} />
 
                             </View>
                         )}
