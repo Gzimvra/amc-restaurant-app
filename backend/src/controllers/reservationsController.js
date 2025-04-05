@@ -51,8 +51,6 @@ const editReservation = async (req, res) => {
     try {
         conn = await pool.getConnection();
 
-        console.log(req)
-
         const reservation = {
             reservationId: Number(req.params.reservationId),
             userId: req.user.userId,
@@ -61,9 +59,6 @@ const editReservation = async (req, res) => {
             time: formatTime(req.body.time),
             people_count: req.body.people_count
         };
-
-        console.log(reservation); // Debug here to ensure reservationId and restaurantId are correct
-
 
         const result = await conn.query(
             `UPDATE reservations 

@@ -13,18 +13,23 @@ const formatTime = (timeString) => moment(timeString, "HH:mm:ss").format("HH:mm"
 const ReservationHistory = ({ reservations: initialReservations }) => {
     const [reservations, setReservations] = useState(initialReservations);
     const navigation = useNavigation();
-    const currentDateTime = moment();
 
     // Function to get status based on date and time
     const getStatus = (date, time) => {
         const reservationDateTime = moment(`${date} ${time}`);
+        const currentDateTime = moment();
 
-        // If the reservation date and time is in the past, it is "Completed"
-        if (reservationDateTime.isBefore(currentDateTime)) {
-            return { status: 'Completed', icon: 'check-circle', color: 'green', disabled: true };
-        }
-        // If the reservation date and time is in the future, it is "Upcoming"
-        return { status: 'Upcoming', icon: 'clock', color: 'orange', disabled: false };
+        const isSameDayOrBefore = reservationDateTime.isSameOrBefore(currentDateTime, 'day');
+        const isAtLeast6HoursAgo = currentDateTime.diff(reservationDateTime, 'hours') >= 6;
+
+        const disabled = isSameDayOrBefore && isAtLeast6HoursAgo;
+
+        return {
+            status: disabled ? 'Completed' : 'Upcoming',
+            icon: disabled ? 'check-circle' : 'clock',
+            color: disabled ? 'green' : 'orange',
+            disabled
+        };
     };
 
     const handleDeleteReservation = async (reservation_id) => {
