@@ -8,22 +8,22 @@ A mobile application (React Native) that allows users to create, manage, and edi
 
 1. ** Clone the repository: **
    ```bash
-   `git clone https://github.com/Gzimvra/amc-restaurant-app.git`
-   `cd amc-restaurant-app`
+   git clone https://github.com/Gzimvra/amc-restaurant-app.git
+   cd amc-restaurant-app
    ```
 
 2. **Install dependencies:**
 
    - Frontend:
    ```bash
-     `cd frontend`  
-     `npm install`
+   cd frontend
+   npm install
    ```
 
    - Backend:  
    ```bash
-     `cd ../backend`  
-     `npm install`
+   cd ../backend
+   npm install
    ```
 
 3. **Environment Variables Setup:**
