@@ -7,18 +7,24 @@ A mobile application (React Native) that allows users to create, manage, and edi
 ## 🛠️ Installation Instructions
 
 1. ** Clone the repository: **
+   ```bash
    `git clone https://github.com/Gzimvra/amc-restaurant-app.git`
    `cd amc-restaurant-app`
+   ```
 
 2. **Install dependencies:**
 
-   - Frontend:  
+   - Frontend:
+   ```bash
      `cd frontend`  
      `npm install`
+   ```
 
    - Backend:  
+   ```bash
      `cd ../backend`  
      `npm install`
+   ```
 
 3. **Environment Variables Setup:**
 
@@ -67,17 +73,6 @@ A mobile application (React Native) that allows users to create, manage, and edi
 
 ---
 
-## ⚙️ Functionality Overview
-
-The application includes:
-
-- User Sign Up / Login with JWT authentication
-- Browse restaurants with details, descriptions, and ratings
-- Create reservations with selected date, time, and number of people
-- View reservation history with status indicator (Completed or Upcoming)
-- Edit existing reservations if they are within a pending timeframe
-- Delete existing reservations if they are within a pending timeframe
-- Logout and clear authentication token
 
 ## ⚙️Functionality Overview
 
@@ -124,7 +119,7 @@ This application offers a complete restaurant reservation system, including:
 - **compression** – Middleware for GZIP compression to improve response times.
 - **nodemon** *(dev only)* – Automatically restarts the server during development when files change.
 
-### 📱 Frontend (React Native + Expo)
+### Frontend (React Native + Expo)
 
 - **React Native** – Framework for building native apps using React.
 - **Expo** – Platform and toolchain that simplifies React Native development.
