@@ -6,7 +6,8 @@ A mobile application (React Native) that allows users to create, manage, and edi
 
 ## 🛠️ Installation Instructions
 
-1. ** Clone the repository: **
+1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/Gzimvra/amc-restaurant-app.git
    cd amc-restaurant-app
@@ -14,13 +15,15 @@ A mobile application (React Native) that allows users to create, manage, and edi
 
 2. **Install dependencies:**
 
-   - Frontend:
+   - **Frontend:**
+
    ```bash
    cd frontend
    npm install
    ```
 
-   - Backend:  
+   - **Backend:**
+
    ```bash
    cd ../backend
    npm install
@@ -83,6 +86,9 @@ This application offers a complete restaurant reservation system, including:
 
 - **Restaurant Browsing**  
   View a list of restaurants with detailed descriptions, ratings, and other information.
+
+- **Searchbar**
+  Find a specific restaurant based on its name or location
 
 - **Make Reservations**  
   Book a table by selecting a preferred date, time, and number of guests.
